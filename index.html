@@ -137,7 +137,7 @@ function plan(mode, n, test, bindSide){
 }
 
 function marks(page){
-  const o = {thickness:.5, color:rgb(.45,.45,.45)};
+  const o = {thickness:.1, color:rgb(.45,.45,.45)};
   const t = (a,b,c,d) => page.drawLine({start:{x:a,y:b}, end:{x:c,y:d}, ...o});
   t(10,H,22,H); t(A4W-22,H,A4W-10,H);   // garis potong tengah
   t(W,10,W,22); t(W,A4H-22,W,A4H-10);   // lipatan (steples) / potongan (lem)
