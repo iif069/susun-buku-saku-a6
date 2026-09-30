@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Susun Buku Saku A6</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<style>
+:root{--bg:#f3f1ec;--card:#fff;--ink:#1d2a33;--mute:#5d6b75;--line:#d7d3ca;--acc:#0e6b73;--accInk:#fff;--warn:#a4441c}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15191c;--card:#1e2428;--ink:#e8ecee;--mute:#95a3ab;--line:#33404a;--acc:#4fb8c1;--accInk:#0c1a1c;--warn:#f0a070}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Inter",system-ui,sans-serif;padding:16px}
+main{max-width:640px;margin:0 auto}
+h1{font:700 1.6rem/1.2 "Inter",system-ui,sans-serif;margin:8px 0 4px;letter-spacing:-.02em}
+p.sub{margin:0 0 16px;color:var(--mute)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px}
+label.f{display:block;font-weight:600;margin-bottom:6px}
+input[type=file],input[type=number],select{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+.opt{display:flex;gap:8px;align-items:flex-start;margin-top:10px;color:var(--ink)}
+.opt small{display:block;color:var(--mute)}
+.info{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+.info b{display:block;font-size:1.25rem}
+.info span{color:var(--mute);font-size:.85rem}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{padding:14px;border-radius:8px;border:0;background:var(--acc);color:var(--accInk);font:600 1rem inherit;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+ol{padding-left:20px;margin:6px 0 0}
+.err{color:var(--warn);font-weight:600;min-height:1.4em}
+details summary{cursor:pointer;font-weight:600}
+table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}
+td,th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}
+.scroll{overflow-x:auto;max-height:260px}
+</style>
+</head>
+<body>
+<main>
+<h1>Susun Buku Saku A6</h1>
+<p class="sub">Upload PDF isi buku (halaman urut biasa). Hasilnya PDF A4 tegak siap cetak, bolak-balik manual.</p>
+
+<div class="card">
+  <label class="f" for="pdf">1. File PDF isi buku</label>
+  <input type="file" id="pdf" accept="application/pdf">
+  <div class="err" id="err"></div>
+</div>
+
+<div class="card">
+  <label class="f" for="jilid">2. Jenis jilid</label>
+  <select id="jilid">
+    <option value="saddle">Steples tengah – 1 buku (potong tengah, gabung tumpukan)</option>
+    <option value="dup">Steples tengah – 2 salinan (potong tengah = 2 buku sama)</option>
+    <option value="lem">Lem / spiral / ring (lembar lepas, potong jadi 4)</option>
+  </select>
+  <label class="f" for="qty" style="margin-top:12px">Jumlah buku dipesan</label>
+  <input type="number" id="qty" min="1" value="1">
+  <label class="opt"><input type="checkbox" id="rev"><span>Balik urutan lembar belakang<small>Centang kalau hasil tes cetak urutannya terbalik.</small></span></label>
+  <label class="opt"><input type="checkbox" id="short"><span>Balik kertas lewat sisi pendek<small>Default: balik lewat sisi panjang (kiri-kanan seperti membuka buku).</small></span></label>
+  <label class="opt"><input type="checkbox" id="test"><span>Tes cetak (hanya 2 lembar A4 pertama)<small>Cek dulu arah balik kertas sebelum cetak semua.</small></span></label>
+</div>
+
+<div class="card">
+  <ul class="info">
+    <li><b id="iPages">-</b><span>halaman terbaca</span></li>
+    <li><b id="iBlank">-</b><span>halaman kosong ditambah</span></li>
+    <li><b id="iSheets">-</b><span>lembar A4 per set</span></li>
+    <li><b id="iSides">-</b><span>sisi cetak master per set</span></li>
+    <li><b id="iSets">-</b><span>set yang difotokopi</span></li>
+    <li><b id="iTotal">-</b><span>total lembar A4 difotokopi</span></li>
+    <li id="iNote" style="grid-column:1/-1;color:var(--warn);font-weight:600"></li>
+  </ul>
+</div>
+
+<div class="card">
+  <label class="f">3. Buat PDF</label>
+  <div class="btns">
+    <button id="bF" disabled>PDF Depan</button>
+    <button id="bB" disabled>PDF Belakang</button>
+  </div>
+  <ol id="steps"></ol>
+</div>
+
+<details class="card"><summary>Lihat urutan halaman per lembar</summary>
+  <div class="scroll"><table id="tbl"></table></div>
+</details>
+</main>
+
+<script>
+const {PDFDocument, degrees, rgb} = PDFLib;
+const A4W = 595.28, A4H = 841.89, W = A4W/2, H = A4H/2;
+const $ = id => document.getElementById(id);
+let src = null, n = 0, fname = 'buku';
+
+// Susun rencana: tiap lembar A4 punya sel depan & belakang {x,y,page,sheet}
+function plan(mode, n, test){
+  const pg = i => (i != null && i >= 0 && i < n) ? i : null;
+  const sheets = []; let blank = 0;
+  if (mode === 'lem'){
+    const P = Math.ceil(n/2)*2, L = P/2, T = Math.ceil(L/4);
+    blank = P - n;
+    for (let j = 0; j < T; j++){
+      const f = [], b = [];
+      for (let q = 0; q < 4; q++){
+        const leaf = j + q*T, c = q & 1, y = (q >> 1) ? 0 : H, ok = leaf < L;
+        f.push({x:c*W, y, page: ok ? pg(2*leaf) : null});
+        b.push({x:(1-c)*W, y, page: ok ? pg(2*leaf+1) : null});
+      }
+      sheets.push({f, b});
+    }
+  } else {
+    const P = Math.ceil(n/4)*4, S = P/4;
+    blank = P - n;
+    const T = mode === 'dup' ? S : Math.ceil(S/2);
+    const fr = s => s < S ? [pg(P-1-2*s), pg(2*s)] : [null, null];
+    const bk = s => s < S ? [pg(2*s+1), pg(P-2-2*s)] : [null, null];
+    for (let j = 0; j < T; j++){
+      const top = j, bot = mode === 'dup' ? j : j + T;
+      const f = [], b = [];
+      [[top, H], [bot, 0]].forEach(([s, y]) => {
+        const F = fr(s), B = bk(s);
+        f.push({x:0, y, page:F[0]}, {x:W, y, page:F[1]});
+        b.push({x:0, y, page:B[0]}, {x:W, y, page:B[1]});
+      });
+      sheets.push({f, b});
+    }
+  }
+  return {sheets: test ? sheets.slice(0,2) : sheets, blank, all: sheets.length};
+}
+
+function marks(page){
+  const o = {thickness:.5, color:rgb(.45,.45,.45)};
+  const t = (a,b,c,d) => page.drawLine({start:{x:a,y:b}, end:{x:c,y:d}, ...o});
+  t(10,H,22,H); t(A4W-22,H,A4W-10,H);   // garis potong tengah
+  t(W,10,W,22); t(W,A4H-22,W,A4H-10);   // lipatan (steples) / potongan (lem)
+}
+
+async function build(side){
+  const mode = $('jilid').value, p = plan(mode, n, $('test').checked);
+  const out = await PDFDocument.create();
+  const emb = await out.embedPdf(src, [...Array(n).keys()]);
+  let list = p.sheets.map(s => side === 'f' ? s.f : s.b);
+  if (side === 'b' && $('rev').checked) list = list.slice().reverse();
+  list.forEach(cells => {
+    const page = out.addPage([A4W, A4H]);
+    cells.forEach(c => {
+      if (c.page == null) return;
+      const e = emb[c.page], s = Math.min(W/e.width, H/e.height);
+      const w = e.width*s, h = e.height*s;
+      page.drawPage(e, {x:c.x+(W-w)/2, y:c.y+(H-h)/2, width:w, height:h});
+    });
+    marks(page);
+    if (side === 'b' && $('short').checked) page.setRotation(degrees(180));
+  });
+  const bytes = await out.save();
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([bytes], {type:'application/pdf'}));
+  a.download = fname + '-' + mode + '-' + (side === 'f' ? 'depan' : 'belakang') + '.pdf';
+  a.click();
+}
+
+function refresh(){
+  if (!src) return;
+  const mode = $('jilid').value, p = plan(mode, n, false);
+  $('iPages').textContent = n;
+  $('iBlank').textContent = p.blank;
+  $('iSheets').textContent = p.all;
+  $('iSides').textContent = p.all*2;
+  const q = Math.max(1, parseInt($('qty').value) || 1);
+  const sets = mode === 'dup' ? Math.ceil(q/2) : q;
+  $('iSets').textContent = sets;
+  $('iTotal').textContent = sets * p.all;
+  $('iNote').textContent = (mode === 'dup' && q % 2) ? 'Jumlah ganjil: hasilnya lebih 1 buku (sisa 1 salinan).' : '';
+  const cut = {
+    saddle: ['Cetak PDF Depan, balik kertas, cetak PDF Belakang.', 'Potong tumpukan tepat di tengah (garis pendek kiri-kanan).', 'Sambung tumpukan atas lalu tumpukan bawah, lembar 1 paling luar.', 'Lipat di garis lipat tengah, lalu steples di lipatan.'],
+    dup: ['Cetak PDF Depan, balik kertas, cetak PDF Belakang.', 'Potong tumpukan tepat di tengah: hasilnya 2 tumpukan sama.', 'Tiap tumpukan = 1 buku lengkap. Lipat di garis tengah, lalu steples.'],
+    lem: ['Cetak PDF Depan, balik kertas, cetak PDF Belakang.', 'Potong tumpukan jadi 4 (garis pendek tengah kiri-kanan dan atas-bawah).', 'Sambung 4 tumpukan: kiri-atas, kanan-atas, kiri-bawah, kanan-bawah.', 'Jilid lem, spiral, atau ring di sisi kiri halaman depan.']
+  }[mode];
+  $('steps').innerHTML = cut.map(s => '<li>' + s + '</li>').join('');
+  const L = c => c.page == null ? 'kosong' : c.page + 1;
+  const sheetRows = plan(mode, n, false).sheets.map((s, i) =>
+    '<tr><td>' + (i+1) + '</td><td>' + s.f.map(L).join(' | ') + '</td><td>' + s.b.map(L).join(' | ') + '</td></tr>').join('');
+  $('tbl').innerHTML = '<tr><th>A4</th><th>Depan (atas kiri, atas kanan, bawah kiri, bawah kanan)</th><th>Belakang</th></tr>' + sheetRows;
+}
+
+$('pdf').addEventListener('change', async e => {
+  const f = e.target.files[0]; $('err').textContent = ''; src = null;
+  $('bF').disabled = $('bB').disabled = true;
+  if (!f) return;
+  try {
+    src = await PDFDocument.load(await f.arrayBuffer(), {ignoreEncryption:true});
+    n = src.getPageCount(); fname = f.name.replace(/\.pdf$/i, '');
+    $('bF').disabled = $('bB').disabled = false; refresh();
+  } catch (x) { $('err').textContent = 'PDF tidak bisa dibaca. Coba simpan ulang PDF-nya lalu upload lagi.'; }
+});
+$('jilid').addEventListener('change', refresh);
+$('qty').addEventListener('input', refresh);
+$('bF').onclick = () => build('f');
+$('bB').onclick = () => build('b');
+</script>
+</body>
+</html>
