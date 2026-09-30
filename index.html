@@ -54,6 +54,11 @@ td,th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}
     <option value="dup">Steples tengah – 2 salinan (potong tengah = 2 buku sama)</option>
     <option value="lem">Lem / spiral / ring (lembar lepas, potong jadi 4)</option>
   </select>
+  <label class="f" id="bindLbl" for="bind" style="margin-top:12px">Posisi jilid</label>
+  <select id="bind">
+    <option value="kiri">Kiri (buku dibuka ke kiri)</option>
+    <option value="kanan">Kanan (buku dibuka ke kanan)</option>
+  </select>
   <label class="f" for="qty" style="margin-top:12px">Jumlah buku dipesan</label>
   <input type="number" id="qty" min="1" value="1">
   <label class="opt"><input type="checkbox" id="rev"><span>Balik urutan lembar belakang<small>Centang kalau hasil tes cetak urutannya terbalik.</small></span></label>
@@ -94,7 +99,7 @@ const $ = id => document.getElementById(id);
 let src = null, n = 0, fname = 'buku';
 
 // Susun rencana: tiap lembar A4 punya sel depan & belakang {x,y,page,sheet}
-function plan(mode, n, test){
+function plan(mode, n, test, bindSide){
   const pg = i => (i != null && i >= 0 && i < n) ? i : null;
   const sheets = []; let blank = 0;
   if (mode === 'lem'){
@@ -113,13 +118,15 @@ function plan(mode, n, test){
     const P = Math.ceil(n/4)*4, S = P/4;
     blank = P - n;
     const T = mode === 'dup' ? S : Math.ceil(S/2);
+    const mirror = bindSide === 'kanan';
     const fr = s => s < S ? [pg(P-1-2*s), pg(2*s)] : [null, null];
     const bk = s => s < S ? [pg(2*s+1), pg(P-2-2*s)] : [null, null];
     for (let j = 0; j < T; j++){
       const top = j, bot = mode === 'dup' ? j : j + T;
       const f = [], b = [];
       [[top, H], [bot, 0]].forEach(([s, y]) => {
-        const F = fr(s), B = bk(s);
+        let F = fr(s), B = bk(s);
+        if (mirror){ F = [F[1], F[0]]; B = [B[1], B[0]]; }
         f.push({x:0, y, page:F[0]}, {x:W, y, page:F[1]});
         b.push({x:0, y, page:B[0]}, {x:W, y, page:B[1]});
       });
@@ -137,7 +144,9 @@ function marks(page){
 }
 
 async function build(side){
-  const mode = $('jilid').value, p = plan(mode, n, $('test').checked);
+  const mode = $('jilid').value, bindSide = $('bind').value;
+  const p = plan(mode, n, $('test').checked, bindSide);
+  const bindMargin = 14; // ~5mm, khusus mode lem
   const out = await PDFDocument.create();
   const emb = await out.embedPdf(src, [...Array(n).keys()]);
   let list = p.sheets.map(s => side === 'f' ? s.f : s.b);
@@ -146,9 +155,17 @@ async function build(side){
     const page = out.addPage([A4W, A4H]);
     cells.forEach(c => {
       if (c.page == null) return;
-      const e = emb[c.page], s = Math.min(W/e.width, H/e.height);
+      const e = emb[c.page];
+      let cx = c.x, cw = W;
+      if (mode === 'lem'){
+        // sisi depan dan belakang perlu margin berlawanan supaya lubang jilid sejajar saat dibalik
+        const pos = side === 'f' ? bindSide : (bindSide === 'kiri' ? 'kanan' : 'kiri');
+        cw = W - bindMargin;
+        cx = c.x + (pos === 'kiri' ? bindMargin : 0);
+      }
+      const s = Math.min(cw/e.width, H/e.height);
       const w = e.width*s, h = e.height*s;
-      page.drawPage(e, {x:c.x+(W-w)/2, y:c.y+(H-h)/2, width:w, height:h});
+      page.drawPage(e, {x:cx+(cw-w)/2, y:c.y+(H-h)/2, width:w, height:h});
     });
     marks(page);
     if (side === 'b' && $('short').checked) page.setRotation(degrees(180));
@@ -162,7 +179,7 @@ async function build(side){
 
 function refresh(){
   if (!src) return;
-  const mode = $('jilid').value, p = plan(mode, n, false);
+  const mode = $('jilid').value, bindSide = $('bind').value, p = plan(mode, n, false, bindSide);
   $('iPages').textContent = n;
   $('iBlank').textContent = p.blank;
   $('iSheets').textContent = p.all;
@@ -179,7 +196,7 @@ function refresh(){
   }[mode];
   $('steps').innerHTML = cut.map(s => '<li>' + s + '</li>').join('');
   const L = c => c.page == null ? 'kosong' : c.page + 1;
-  const sheetRows = plan(mode, n, false).sheets.map((s, i) =>
+  const sheetRows = plan(mode, n, false, bindSide).sheets.map((s, i) =>
     '<tr><td>' + (i+1) + '</td><td>' + s.f.map(L).join(' | ') + '</td><td>' + s.b.map(L).join(' | ') + '</td></tr>').join('');
   $('tbl').innerHTML = '<tr><th>A4</th><th>Depan (atas kiri, atas kanan, bawah kiri, bawah kanan)</th><th>Belakang</th></tr>' + sheetRows;
 }
@@ -196,6 +213,7 @@ $('pdf').addEventListener('change', async e => {
 });
 $('jilid').addEventListener('change', refresh);
 $('qty').addEventListener('input', refresh);
+$('bind').addEventListener('change', refresh);
 $('bF').onclick = () => build('f');
 $('bB').onclick = () => build('b');
 </script>
