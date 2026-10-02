@@ -1,221 +1,285 @@
 <!DOCTYPE html>
-<html lang="id">
-<head>
-<meta charset="utf-8">
+<html lang="id"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Susun Buku Saku A6</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<title>Cetak Label Undangan 103 | MIG Digital Printing</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA/lJREFUeAHt3bGrlWUcwPHHKLDhho5XIbAhsiYtGqIpbGlS/4Aaaou2hsi1pMG5LZCisWhqsZzCoShoUSNIENTIIfEGXsiwXvsDziucw/F+7+cDd3s4cDhfDi/3x/M7e04dPndvQMQjA0IETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJqUR8eKfHDx2FimW9e2x5lXv5t19uTp58bR45tjmb58/+L46avrC8/tO7h3vHvu5THHJ2/8OK788OdYplW891WYPsvpM10239CkCJoUQZMiaFIETYqgSRE0KYImZWWDlbkufXtz3Li8tfDc9tbdceTEgTHH75e2xvlrdxae27vx6Hjp9SdHyaVv/vhvYLH4va/b9u1/xio8FEHPmcBN5k4fp6nehc+uLjw3TfVyQZ+/ef9vt/LIQYqgSRE0KYImRdCkCJoUQZMiaFLWPlh5EGeOzbuCNU0VS6YB0FtnX5h19vN3fp41ea3aUUHfur78O2g7xRT1HNM4fzfzyEGKoEkRNCmCJkXQpAiaFEGTsrJ/Ws69hTI59OL+WeeufL/cPXDMs/nMxtj7xOJUtm/fXftQZ2VBT9eg5njl7afGydPPLjz3IMsaWa7X3nt61pfOtHhyWkC5Th45SBE0KYImRdCkCJoUQZMiaFIETcrarzdME8U5E8Dtrb8H6/H1R7+MvRuPLTy37+Dj4+SHi4dk/7/mryv5TNce9DQBXMXPe7E8Ny7/NevcoT1jHD0xL+jzH/+2kqA9cpAiaFIETYqgSRE0KYImRdCk7O69UWP+erE7sX1508qwOdeqJjtpTrCrg75/revY7rzWtXl4Y7x59vlZZ6drVdP1qp3AIwcpgiZF0KQImhRBkyJoUgRNiqBJWdlgZdpZ97Cbfi3rwqdXR8mREwdm7aGbFit+MXP/4PR6c15z/8wfNlqlXR30NCmsBX30+Oascw+yWHGaKM7dELtuHjlIETQpgiZF0KQImhRBkyJoUgRNyp5Th8/dGxDhG5oUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCk/AsSc7euPXhOEQAAAABJRU5ErkJggg==">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA/lJREFUeAHt3bGrlWUcwPHHKLDhho5XIbAhsiYtGqIpbGlS/4Aaaou2hsi1pMG5LZCisWhqsZzCoShoUSNIENTIIfEGXsiwXvsDziucw/F+7+cDd3s4cDhfDi/3x/M7e04dPndvQMQjA0IETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJqUR8eKfHDx2FimW9e2x5lXv5t19uTp58bR45tjmb58/+L46avrC8/tO7h3vHvu5THHJ2/8OK788OdYplW891WYPsvpM10239CkCJoUQZMiaFIETYqgSRE0KYImZWWDlbkufXtz3Li8tfDc9tbdceTEgTHH75e2xvlrdxae27vx6Hjp9SdHyaVv/vhvYLH4va/b9u1/xio8FEHPmcBN5k4fp6nehc+uLjw3TfVyQZ+/ef9vt/LIQYqgSRE0KYImRdCkCJoUQZMiaFLWPlh5EGeOzbuCNU0VS6YB0FtnX5h19vN3fp41ea3aUUHfur78O2g7xRT1HNM4fzfzyEGKoEkRNCmCJkXQpAiaFEGTsrJ/Ws69hTI59OL+WeeufL/cPXDMs/nMxtj7xOJUtm/fXftQZ2VBT9eg5njl7afGydPPLjz3IMsaWa7X3nt61pfOtHhyWkC5Th45SBE0KYImRdCkCJoUQZMiaFIETcrarzdME8U5E8Dtrb8H6/H1R7+MvRuPLTy37+Dj4+SHi4dk/7/mryv5TNce9DQBXMXPe7E8Ny7/NevcoT1jHD0xL+jzH/+2kqA9cpAiaFIETYqgSRE0KYImRdCk7O69UWP+erE7sX1508qwOdeqJjtpTrCrg75/revY7rzWtXl4Y7x59vlZZ6drVdP1qp3AIwcpgiZF0KQImhRBkyJoUgRNiqBJWdlgZdpZ97Cbfi3rwqdXR8mREwdm7aGbFit+MXP/4PR6c15z/8wfNlqlXR30NCmsBX30+Oascw+yWHGaKM7dELtuHjlIETQpgiZF0KQImhRBkyJoUgRNyp5Th8/dGxDhG5oUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCk/AsSc7euPXhOEQAAAABJRU5ErkJggg==">
 <style>
-:root{--bg:#f3f1ec;--card:#fff;--ink:#1d2a33;--mute:#5d6b75;--line:#d7d3ca;--acc:#0e6b73;--accInk:#fff;--warn:#a4441c}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15191c;--card:#1e2428;--ink:#e8ecee;--mute:#95a3ab;--line:#33404a;--acc:#4fb8c1;--accInk:#0c1a1c;--warn:#f0a070}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Inter",system-ui,sans-serif;padding:16px}
-main{max-width:640px;margin:0 auto}
-h1{font:700 1.6rem/1.2 "Inter",system-ui,sans-serif;margin:8px 0 4px;letter-spacing:-.02em}
-p.sub{margin:0 0 16px;color:var(--mute)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px}
-label.f{display:block;font-weight:600;margin-bottom:6px}
-input[type=file],input[type=number],select{width:100%;padding:10px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
-.opt{display:flex;gap:8px;align-items:flex-start;margin-top:10px;color:var(--ink)}
-.opt small{display:block;color:var(--mute)}
-.info{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
-.info b{display:block;font-size:1.25rem}
-.info span{color:var(--mute);font-size:.85rem}
-.btns{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-button{padding:14px;border-radius:8px;border:0;background:var(--acc);color:var(--accInk);font:600 1rem inherit;cursor:pointer}
-button:disabled{opacity:.4;cursor:not-allowed}
-button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
-ol{padding-left:20px;margin:6px 0 0}
-.err{color:var(--warn);font-weight:600;min-height:1.4em}
-details summary{cursor:pointer;font-weight:600}
-table{width:100%;border-collapse:collapse;font-size:.85rem;margin-top:8px}
-td,th{border-bottom:1px solid var(--line);padding:4px 6px;text-align:left}
-.scroll{overflow-x:auto;max-height:260px}
+/* MIG UI v1: satu sumber gaya untuk semua tools MIG Digital Printing.
+   Nama token sama dengan @theme Tailwind di aplikasi kasir (--color-brand, dst). */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+:root {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-brand: #7b29ba;
+  --color-brand-hover: #6a21a3;
+  --color-brand-soft: #f4ebfa;
+  --color-page: #f5f4f8;
+  --color-surface: #ffffff;
+  --color-line: #e2e0ea;
+  --color-ink: #1c1b1a;
+  --color-muted: #6b675e;
+  --color-success-bg: #dcfce7;
+  --color-success-fg: #15803d;
+  --color-warning-bg: #fdf0d5;
+  --color-warning-fg: #8a5a00;
+  --color-danger-bg: #fee2e2;
+  --color-danger-fg: #b91c1c;
+  --radius-pill: 999px; /* teks kecil sampai 3 baris, tinggi maks ~90px */
+  --radius-card: 32px; /* susunan vertikal, grafik, panel, teks besar, blok tinggi */
+  --control-h: 44px; /* tinggi minimal semua yang bisa disentuh */
+}
+
+.mig-base, .mig-base * { box-sizing: border-box; }
+.mig-base {
+  margin: 0;
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+.mig-base button, .mig-base input, .mig-base select, .mig-base textarea { font-family: inherit; }
+.mig-base :focus-visible { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+.mig-base svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+/* Tombol */
+.mig-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  min-height: var(--control-h); padding: 0 20px; border: 0; cursor: pointer;
+  border-radius: var(--radius-pill); background: var(--color-brand); color: #fff;
+  font-size: 14px; font-weight: 600; transition: background-color .15s;
+}
+.mig-btn:hover { background: var(--color-brand-hover); }
+.mig-btn--secondary { background: var(--color-surface); color: var(--color-ink); box-shadow: inset 0 0 0 1.5px var(--color-line); }
+.mig-btn--secondary:hover { background: var(--color-brand-soft); }
+.mig-btn--danger { background: var(--color-danger-fg); }
+.mig-btn--danger:hover { background: var(--color-danger-fg); opacity: .9; }
+.mig-btn--lg { min-height: 56px; font-size: 16px; font-weight: 700; }
+.mig-btn--block { width: 100%; }
+.mig-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+/* Kartu: susunan vertikal, grafik, panel. Blok horizontal pendek dengan teks kecil (sampai 3 baris): .mig-capsule */
+.mig-card { background: var(--color-surface); border-radius: var(--radius-card); padding: 16px; }
+.mig-card--lg { padding: 24px; }
+.mig-capsule { background: var(--color-surface); border-radius: var(--radius-pill); padding: 14px 28px; }
+.mig-card--selected { box-shadow: inset 0 0 0 1.5px var(--color-brand); }
+
+/* Badge status */
+.mig-badge {
+  display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px;
+  border-radius: var(--radius-pill); font-size: 11px; font-weight: 700;
+  background: var(--color-line); color: var(--color-muted);
+}
+.mig-badge--dot::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.mig-badge--success { background: var(--color-success-bg); color: var(--color-success-fg); }
+.mig-badge--warning { background: var(--color-warning-bg); color: var(--color-warning-fg); }
+.mig-badge--danger { background: var(--color-danger-bg); color: var(--color-danger-fg); }
+.mig-badge--brand { background: var(--color-brand-soft); color: var(--color-brand); }
+.mig-badge--dark { background: var(--color-ink); color: #fff; } /* persen naik/turun */
+
+/* Isian: satu baris = pill, banyak baris = kartu 32px */
+.mig-field { display: flex; flex-direction: column; gap: 6px; }
+.mig-label { font-size: 14px; font-weight: 500; }
+.mig-hint { font-size: 12px; color: var(--color-muted); }
+.mig-error { font-size: 12px; color: var(--color-danger-fg); }
+.mig-input {
+  width: 100%; min-height: var(--control-h); padding: 0 18px; font-size: 14px; color: var(--color-ink);
+  background: var(--color-surface); border: 1.5px solid var(--color-line); border-radius: var(--radius-pill);
+}
+.mig-input::placeholder { color: rgba(107, 103, 94, .6); }
+.mig-input:focus { outline: none; border-color: var(--color-brand); box-shadow: 0 0 0 3px rgba(123, 41, 186, .15); }
+.mig-input--error { border-color: var(--color-danger-fg); }
+.mig-input--multiline { padding: 16px 24px; border-radius: var(--radius-card); resize: vertical; }
+
+/* Pilihan 2-3 opsi (pill, satu ketukan). 4 opsi atau lebih: pakai select */
+.mig-choice { display: flex; flex-wrap: wrap; gap: 8px; }
+.mig-choice__item {
+  flex: 1 0 auto; min-width: 96px; min-height: var(--control-h); padding: 0 16px; cursor: pointer;
+  border-radius: var(--radius-pill); border: 1.5px solid var(--color-line);
+  background: var(--color-surface); color: var(--color-ink); font-size: 14px; font-weight: 600;
+}
+.mig-choice__item[aria-checked="true"] { border-color: var(--color-brand); background: var(--color-brand-soft); color: var(--color-brand); }
+
+/* Chip kategori / filter */
+.mig-chip { flex: none; min-height: var(--control-h); padding: 0 20px; border: 0; cursor: pointer; border-radius: var(--radius-pill); background: var(--color-surface); color: var(--color-ink); font-size: 14px; font-weight: 600; }
+.mig-chip.is-active { background: var(--color-brand); color: #fff; }
+
+/* Kotak ikon produk: ikon satu warna hitam */
+.mig-tile { width: 44px; height: 44px; border-radius: 16px; display: flex; align-items: center; justify-content: center; background: var(--color-page); color: var(--color-ink); }
+
+/* Tata letak layar: atas tetap, daftar bergulir, aksi utama menempel di bawah */
+.mig-screen { display: flex; flex-direction: column; height: 100dvh; }
+.mig-screen__top, .mig-screen__bottom { flex: none; }
+.mig-screen__body { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; }
+.mig-screen__body::-webkit-scrollbar { display: none; }
+
+/* Menu bawah di HP */
+.mig-tabbar { display: flex; padding: 8px 8px 14px; background: var(--color-surface); border-radius: 28px 28px 0 0; }
+.mig-tab { flex: 1; min-height: 56px; display: flex; flex-direction: column; align-items: center; gap: 2px; border: 0; background: none; color: var(--color-muted); font-size: 11px; font-weight: 600; cursor: pointer; }
+.mig-tab > span { width: 56px; height: 30px; border-radius: var(--radius-pill); display: flex; align-items: center; justify-content: center; }
+.mig-tab[aria-current="page"] { color: var(--color-brand); }
+.mig-tab[aria-current="page"] > span { background: var(--color-brand-soft); }
+
+/* Modal (elemen dialog) dan pesan singkat */
+dialog.mig-modal { width: calc(100% - 32px); max-width: 448px; padding: 20px; border: 0; border-radius: var(--radius-card); background: var(--color-surface); color: var(--color-ink); box-shadow: 0 20px 50px rgba(0, 0, 0, .2); }
+dialog.mig-modal::backdrop { background: rgba(0, 0, 0, .4); }
+.mig-toast { padding: 12px 20px; border-radius: var(--radius-pill); background: var(--color-ink); color: #fff; font-size: 14px; font-weight: 600; box-shadow: 0 8px 24px rgba(0, 0, 0, .18); }
+
+.mig-toast--success { background: var(--color-success-bg); color: var(--color-success-fg); }
+.mig-toast--danger { background: var(--color-danger-bg); color: var(--color-danger-fg); }
+
+/* Teks di dalam pill satu baris; kalau tidak muat, pill-nya yang turun (lihat prinsip 6) */
+.mig-btn, .mig-choice__item, .mig-chip, .mig-badge { white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) { .mig-btn { transition: none; } }
+
 </style>
+<style>
+body{height:100dvh;overflow:hidden}
+.app{display:grid;grid-template-columns:420px 1fr;grid-template-rows:1fr auto;height:100dvh}
+.nav{grid-column:1;grid-row:1;display:flex;flex-direction:column;min-height:0;background:var(--color-surface);border-right:1.5px solid var(--color-line)}
+.dock{grid-column:1;grid-row:2;padding:16px 24px 20px;background:var(--color-surface);border-right:1.5px solid var(--color-line);border-top:1.5px solid var(--color-line)}
+.main{grid-column:2;grid-row:1/-1;display:flex;flex-direction:column;min-width:0;min-height:0}
+.brand{display:flex;align-items:center;gap:14px;padding:24px 24px 16px}
+.brand img{width:48px;height:48px;border-radius:16px;flex:none}
+.brand h1{margin:0;font-size:20px;line-height:1.2}
+.brand p{margin:2px 0 0;font-size:12px;color:var(--color-muted)}
+.nav__body{flex:1;min-height:0;overflow-y:auto;padding:8px 24px 24px;display:flex;flex-direction:column;gap:24px}
+.sec{display:flex;flex-direction:column;gap:12px}
+.sec h2{margin:0;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--color-muted)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+select.mig-input{padding:0 14px}
+.fileb{position:relative;overflow:hidden}.fileb input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.main__top{flex:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:24px 24px 16px}
+.main__top h2{margin:0;font-size:20px}
+.main__body{flex:1;min-height:0;overflow:auto;padding:0 24px 24px}
+.sheet{background:#fff;color:#000;position:relative;transform-origin:top left;box-shadow:0 0 0 1.5px var(--color-line)}
+.lb{position:absolute;display:flex;flex-direction:column;justify-content:center;overflow:hidden;padding:1.5mm 2.5mm;line-height:1.25;word-break:break-word}
+.lb.cut{outline:.1mm dashed var(--color-brand)}
+@media(max-width:900px){
+ body{overflow:auto;height:auto}
+ .app{display:flex;flex-direction:column;height:auto}
+ .nav{border-right:0;border-bottom:1.5px solid var(--color-line)}
+ .nav__body{overflow:visible}
+ .main{order:2}.main__body{overflow:visible;padding:0 16px 96px}
+ .dock{order:3;position:sticky;bottom:0;z-index:5;border-right:0;padding:12px 16px 16px}
+ .brand,.nav__body,.main__top{padding-left:16px;padding-right:16px}
+}
+@media print{
+ @page{size:200mm 138mm;margin:0}
+ body{background:#fff;height:auto;overflow:visible}
+ .app{display:block;height:auto}
+ .nav,.dock,.main__top{display:none!important}
+ .main__body{overflow:visible;padding:0}
+ .sheet{box-shadow:none;margin:0!important;break-after:page;transform:none!important}
+ .lb.cut{outline:none}
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
-<body>
-<main>
-<h1>Susun Buku Saku A6</h1>
-<p class="sub">Upload PDF isi buku (halaman urut biasa). Hasilnya PDF A4 tegak siap cetak, bolak-balik manual.</p>
-
-<div class="card">
-  <label class="f" for="pdf">1. File PDF isi buku</label>
-  <input type="file" id="pdf" accept="application/pdf">
-  <div class="err" id="err"></div>
-</div>
-
-<div class="card">
-  <label class="f" for="jilid">2. Jenis jilid</label>
-  <select id="jilid">
-    <option value="saddle">Steples tengah – 1 buku (potong tengah, gabung tumpukan)</option>
-    <option value="dup">Steples tengah – 2 salinan (potong tengah = 2 buku sama)</option>
-    <option value="lem">Lem / spiral / ring (lembar lepas, potong jadi 4)</option>
-  </select>
-  <label class="f" id="bindLbl" for="bind" style="margin-top:12px">Posisi jilid</label>
-  <select id="bind">
-    <option value="kiri">Kiri (buku dibuka ke kiri)</option>
-    <option value="kanan">Kanan (buku dibuka ke kanan)</option>
-  </select>
-  <label class="f" for="qty" style="margin-top:12px">Jumlah buku dipesan</label>
-  <input type="number" id="qty" min="1" value="1">
-  <label class="opt"><input type="checkbox" id="rev"><span>Balik urutan lembar belakang<small>Centang kalau hasil tes cetak urutannya terbalik.</small></span></label>
-  <label class="opt"><input type="checkbox" id="short"><span>Balik kertas lewat sisi pendek<small>Default: balik lewat sisi panjang (kiri-kanan seperti membuka buku).</small></span></label>
-  <label class="opt"><input type="checkbox" id="test"><span>Tes cetak (hanya 2 lembar A4 pertama)<small>Cek dulu arah balik kertas sebelum cetak semua.</small></span></label>
-</div>
-
-<div class="card">
-  <ul class="info">
-    <li><b id="iPages">-</b><span>halaman terbaca</span></li>
-    <li><b id="iBlank">-</b><span>halaman kosong ditambah</span></li>
-    <li><b id="iSheets">-</b><span>lembar A4 per set</span></li>
-    <li><b id="iSides">-</b><span>sisi cetak master per set</span></li>
-    <li><b id="iSets">-</b><span>set yang difotokopi</span></li>
-    <li><b id="iTotal">-</b><span>total lembar A4 difotokopi</span></li>
-    <li id="iNote" style="grid-column:1/-1;color:var(--warn);font-weight:600"></li>
-  </ul>
-</div>
-
-<div class="card">
-  <label class="f">3. Buat PDF</label>
-  <div class="btns">
-    <button id="bF" disabled>PDF Depan</button>
-    <button id="bB" disabled>PDF Belakang</button>
-  </div>
-  <ol id="steps"></ol>
-</div>
-
-<details class="card"><summary>Lihat urutan halaman per lembar</summary>
-  <div class="scroll"><table id="tbl"></table></div>
-</details>
+<body class="mig-base">
+<div class="app">
+<aside class="nav">
+ <div class="brand"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAOdEVYdFNvZnR3YXJlAEZpZ21hnrGWYwAAA/lJREFUeAHt3bGrlWUcwPHHKLDhho5XIbAhsiYtGqIpbGlS/4Aaaou2hsi1pMG5LZCisWhqsZzCoShoUSNIENTIIfEGXsiwXvsDziucw/F+7+cDd3s4cDhfDi/3x/M7e04dPndvQMQjA0IETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJqUR8eKfHDx2FimW9e2x5lXv5t19uTp58bR45tjmb58/+L46avrC8/tO7h3vHvu5THHJ2/8OK788OdYplW891WYPsvpM10239CkCJoUQZMiaFIETYqgSRE0KYImZWWDlbkufXtz3Li8tfDc9tbdceTEgTHH75e2xvlrdxae27vx6Hjp9SdHyaVv/vhvYLH4va/b9u1/xio8FEHPmcBN5k4fp6nehc+uLjw3TfVyQZ+/ef9vt/LIQYqgSRE0KYImRdCkCJoUQZMiaFLWPlh5EGeOzbuCNU0VS6YB0FtnX5h19vN3fp41ea3aUUHfur78O2g7xRT1HNM4fzfzyEGKoEkRNCmCJkXQpAiaFEGTsrJ/Ws69hTI59OL+WeeufL/cPXDMs/nMxtj7xOJUtm/fXftQZ2VBT9eg5njl7afGydPPLjz3IMsaWa7X3nt61pfOtHhyWkC5Th45SBE0KYImRdCkCJoUQZMiaFIETcrarzdME8U5E8Dtrb8H6/H1R7+MvRuPLTy37+Dj4+SHi4dk/7/mryv5TNce9DQBXMXPe7E8Ny7/NevcoT1jHD0xL+jzH/+2kqA9cpAiaFIETYqgSRE0KYImRdCk7O69UWP+erE7sX1508qwOdeqJjtpTrCrg75/revY7rzWtXl4Y7x59vlZZ6drVdP1qp3AIwcpgiZF0KQImhRBkyJoUgRNiqBJWdlgZdpZ97Cbfi3rwqdXR8mREwdm7aGbFit+MXP/4PR6c15z/8wfNlqlXR30NCmsBX30+Oascw+yWHGaKM7dELtuHjlIETQpgiZF0KQImhRBkyJoUgRNyp5Th8/dGxDhG5oUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCkCJoUQZMiaFIETYqgSRE0KYImRdCk/AsSc7euPXhOEQAAAABJRU5ErkJggg==" alt="Logo MIG"><div><h1>Cetak label undangan</h1><p>Label 103, 12 pcs per lembar</p></div></div>
+ <div class="nav__body">
+  <section class="sec"><h2>Sumber data</h2>
+   <div class="mig-field"><label class="mig-label" for="url">Link Google Sheet (CSV)</label>
+    <input class="mig-input" id="url" placeholder="https://docs.google.com/.../pub?output=csv">
+    <span class="mig-hint">Publish to web, pilih format CSV. Baris pertama berisi judul kolom.</span></div>
+   <button class="mig-btn mig-btn--block" onclick="load()">Muat dari Google Sheet</button>
+   <label class="mig-btn mig-btn--secondary mig-btn--block fileb">Import file (.csv / .xlsx / .xls)<input id="fl" type="file" accept=".csv,.xlsx,.xls"></label>
+   <span id="st" class="mig-hint"></span>
+  </section>
+  <section class="sec"><h2>Isi label</h2>
+   <div class="row2">
+    <div class="mig-field"><label class="mig-label" for="cn">Kolom nama</label><input class="mig-input" id="cn" value="nama"></div>
+    <div class="mig-field"><label class="mig-label" for="ca">Kolom alamat</label><input class="mig-input" id="ca" value="alamat"></div>
+   </div>
+   <div class="mig-field"><label class="mig-label" for="mid">Teks baris tengah</label><input class="mig-input" id="mid" value="Di"></div>
+  </section>
+  <section class="sec"><h2>Tampilan teks</h2>
+   <div class="row2">
+    <div class="mig-field"><label class="mig-label" for="fs">Ukuran font (pt)</label><input class="mig-input" id="fs" type="number" value="11" step="0.5"></div>
+    <div class="mig-field"><label class="mig-label" for="ls">Jarak teks (mm)</label><input class="mig-input" id="ls" type="number" value="1" step="0.1"></div>
+   </div>
+   <div class="mig-field"><label class="mig-label" for="ff">Jenis font</label><select class="mig-input" id="ff"><option>Georgia, serif</option><option>Arial, sans-serif</option><option>Calibri, sans-serif</option><option>'Times New Roman', serif</option><option>'Courier New', monospace</option></select></div>
+   <div class="mig-field"><span class="mig-label">Rata teks</span>
+    <div class="mig-choice" role="radiogroup" data-for="al"><button type="button" class="mig-choice__item" role="radio" data-v="center">Tengah</button><button type="button" class="mig-choice__item" role="radio" data-v="left">Kiri</button></div><input type="hidden" id="al" value="center"></div>
+   <div class="mig-field"><span class="mig-label">Garis bantu (hanya di layar)</span>
+    <div class="mig-choice" role="radiogroup" data-for="ct"><button type="button" class="mig-choice__item" role="radio" data-v="y">Tampil</button><button type="button" class="mig-choice__item" role="radio" data-v="n">Sembunyi</button></div><input type="hidden" id="ct" value="y"></div>
+  </section>
+ </div>
+</aside>
+<div class="dock"><button class="mig-btn mig-btn--lg mig-btn--block" onclick="window.print()">Cetak label</button></div>
+<main class="main">
+ <div class="main__top"><h2>Pratinjau</h2><span id="info" class="mig-badge mig-badge--brand"></span></div>
+ <div class="main__body"><div id="pv"></div></div>
 </main>
-
+</div>
 <script>
-const {PDFDocument, degrees, rgb} = PDFLib;
-const A4W = 595.28, A4H = 841.89, W = A4W/2, H = A4H/2;
-const $ = id => document.getElementById(id);
-let src = null, n = 0, fname = 'buku';
-
-// Susun rencana: tiap lembar A4 punya sel depan & belakang {x,y,page,sheet}
-function plan(mode, n, test, bindSide){
-  const pg = i => (i != null && i >= 0 && i < n) ? i : null;
-  const sheets = []; let blank = 0;
-  if (mode === 'lem'){
-    const P = Math.ceil(n/2)*2, L = P/2, T = Math.ceil(L/4);
-    blank = P - n;
-    for (let j = 0; j < T; j++){
-      const f = [], b = [];
-      for (let q = 0; q < 4; q++){
-        const leaf = j + q*T, c = q & 1, y = (q >> 1) ? 0 : H, ok = leaf < L;
-        f.push({x:c*W, y, page: ok ? pg(2*leaf) : null});
-        b.push({x:(1-c)*W, y, page: ok ? pg(2*leaf+1) : null});
-      }
-      sheets.push({f, b});
-    }
-  } else {
-    const P = Math.ceil(n/4)*4, S = P/4;
-    blank = P - n;
-    const T = mode === 'dup' ? S : Math.ceil(S/2);
-    const mirror = bindSide === 'kanan';
-    const fr = s => s < S ? [pg(P-1-2*s), pg(2*s)] : [null, null];
-    const bk = s => s < S ? [pg(2*s+1), pg(P-2-2*s)] : [null, null];
-    for (let j = 0; j < T; j++){
-      const top = j, bot = mode === 'dup' ? j : j + T;
-      const f = [], b = [];
-      [[top, H], [bot, 0]].forEach(([s, y]) => {
-        let F = fr(s), B = bk(s);
-        if (mirror){ F = [F[1], F[0]]; B = [B[1], B[0]]; }
-        f.push({x:0, y, page:F[0]}, {x:W, y, page:F[1]});
-        b.push({x:0, y, page:B[0]}, {x:W, y, page:B[1]});
-      });
-      sheets.push({f, b});
-    }
-  }
-  return {sheets: test ? sheets.slice(0,2) : sheets, blank, all: sheets.length};
+const $=id=>document.getElementById(id);
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+let DATA=Array.from({length:12},(_,i)=>({n:'Nama Tamu '+(i+1),a:'Alamat tamu '+(i+1)}));
+const SHEET={pw:200,ph:138,lw:64,lh:32,gx:3,gy:1.5,cols:3,rows:4};
+const ids=['cn','mid','ca','ls','fs','ff','al','ct'];
+try{const u=localStorage.getItem('sheetUrl');if(u)$('url').value=u;const s=JSON.parse(localStorage.getItem('layout103')||'{}');ids.forEach(k=>{if(s[k]!=null&&s[k]!=='')$(k).value=s[k]})}catch(e){}
+function sync(){document.querySelectorAll('.mig-choice').forEach(g=>{const v=$(g.dataset.for).value;g.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',b.dataset.v==v))})}
+document.querySelectorAll('.mig-choice button').forEach(b=>b.onclick=()=>{$(b.parentNode.dataset.for).value=b.dataset.v;sync();render()});
+function csv(t){const r=[];let row=[],c='',q=false;for(let i=0;i<t.length;i++){const ch=t[i];
+ if(q){if(ch=='"'){if(t[i+1]=='"'){c+='"';i++}else q=false}else c+=ch}
+ else if(ch=='"')q=true;else if(ch==','){row.push(c);c=''}
+ else if(ch=='\n'||ch=='\r'){if(ch=='\r'&&t[i+1]=='\n')i++;row.push(c);r.push(row);row=[];c=''}else c+=ch}
+ if(c||row.length){row.push(c);r.push(row)}return r}
+function applyRows(r){
+ r=r.map(x=>x.map(v=>String(v==null?'':v)));
+ const hd=(r[0]||[]).map(x=>x.trim().toLowerCase()),ni=hd.indexOf($('cn').value.trim().toLowerCase()),ai=hd.indexOf($('ca').value.trim().toLowerCase());
+ if(ni<0||ai<0){$('st').textContent='Kolom "'+(ni<0?$('cn').value:$('ca').value)+'" tidak ada di judul. Cek nama kolom.';return}
+ DATA=r.slice(1).map(x=>({n:(x[ni]||'').trim(),a:(x[ai]||'').trim()})).filter(x=>x.n||x.a);
+ $('st').textContent='Berhasil memuat '+DATA.length+' data';render();
 }
-
-function marks(page){
-  const o = {thickness:.1, color:rgb(.45,.45,.45)};
-  const t = (a,b,c,d) => page.drawLine({start:{x:a,y:b}, end:{x:c,y:d}, ...o});
-  t(10,H,22,H); t(A4W-22,H,A4W-10,H);   // garis potong tengah
-  t(W,10,W,22); t(W,A4H-22,W,A4H-10);   // lipatan (steples) / potongan (lem)
-}
-
-async function build(side){
-  const mode = $('jilid').value, bindSide = $('bind').value;
-  const p = plan(mode, n, $('test').checked, bindSide);
-  const bindMargin = 14; // ~5mm, khusus mode lem
-  const out = await PDFDocument.create();
-  const emb = await out.embedPdf(src, [...Array(n).keys()]);
-  let list = p.sheets.map(s => side === 'f' ? s.f : s.b);
-  if (side === 'b' && $('rev').checked) list = list.slice().reverse();
-  list.forEach(cells => {
-    const page = out.addPage([A4W, A4H]);
-    cells.forEach(c => {
-      if (c.page == null) return;
-      const e = emb[c.page];
-      let cx = c.x, cw = W;
-      if (mode === 'lem'){
-        // sisi depan dan belakang perlu margin berlawanan supaya lubang jilid sejajar saat dibalik
-        const pos = side === 'f' ? bindSide : (bindSide === 'kiri' ? 'kanan' : 'kiri');
-        cw = W - bindMargin;
-        cx = c.x + (pos === 'kiri' ? bindMargin : 0);
-      }
-      const s = Math.min(cw/e.width, H/e.height);
-      const w = e.width*s, h = e.height*s;
-      page.drawPage(e, {x:cx+(cw-w)/2, y:c.y+(H-h)/2, width:w, height:h});
-    });
-    marks(page);
-    if (side === 'b' && $('short').checked) page.setRotation(degrees(180));
-  });
-  const bytes = await out.save();
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([bytes], {type:'application/pdf'}));
-  a.download = fname + '-' + mode + '-' + (side === 'f' ? 'depan' : 'belakang') + '.pdf';
-  a.click();
-}
-
-function refresh(){
-  if (!src) return;
-  const mode = $('jilid').value, bindSide = $('bind').value, p = plan(mode, n, false, bindSide);
-  $('iPages').textContent = n;
-  $('iBlank').textContent = p.blank;
-  $('iSheets').textContent = p.all;
-  $('iSides').textContent = p.all*2;
-  const q = Math.max(1, parseInt($('qty').value) || 1);
-  const sets = mode === 'dup' ? Math.ceil(q/2) : q;
-  $('iSets').textContent = sets;
-  $('iTotal').textContent = sets * p.all;
-  $('iNote').textContent = (mode === 'dup' && q % 2) ? 'Jumlah ganjil: hasilnya lebih 1 buku (sisa 1 salinan).' : '';
-  const cut = {
-    saddle: ['Cetak PDF Depan, balik kertas, cetak PDF Belakang.', 'Potong tumpukan tepat di tengah (garis pendek kiri-kanan).', 'Sambung tumpukan atas lalu tumpukan bawah, lembar 1 paling luar.', 'Lipat di garis lipat tengah, lalu steples di lipatan.'],
-    dup: ['Cetak PDF Depan, balik kertas, cetak PDF Belakang.', 'Potong tumpukan tepat di tengah: hasilnya 2 tumpukan sama.', 'Tiap tumpukan = 1 buku lengkap. Lipat di garis tengah, lalu steples.'],
-    lem: ['Cetak PDF Depan, balik kertas, cetak PDF Belakang.', 'Potong tumpukan jadi 4 (garis pendek tengah kiri-kanan dan atas-bawah).', 'Sambung 4 tumpukan: kiri-atas, kanan-atas, kiri-bawah, kanan-bawah.', 'Jilid lem, spiral, atau ring di sisi kiri halaman depan.']
-  }[mode];
-  $('steps').innerHTML = cut.map(s => '<li>' + s + '</li>').join('');
-  const L = c => c.page == null ? 'kosong' : c.page + 1;
-  const sheetRows = plan(mode, n, false, bindSide).sheets.map((s, i) =>
-    '<tr><td>' + (i+1) + '</td><td>' + s.f.map(L).join(' | ') + '</td><td>' + s.b.map(L).join(' | ') + '</td></tr>').join('');
-  $('tbl').innerHTML = '<tr><th>A4</th><th>Depan (atas kiri, atas kanan, bawah kiri, bawah kanan)</th><th>Belakang</th></tr>' + sheetRows;
-}
-
-$('pdf').addEventListener('change', async e => {
-  const f = e.target.files[0]; $('err').textContent = ''; src = null;
-  $('bF').disabled = $('bB').disabled = true;
-  if (!f) return;
-  try {
-    src = await PDFDocument.load(await f.arrayBuffer(), {ignoreEncryption:true});
-    n = src.getPageCount(); fname = f.name.replace(/\.pdf$/i, '');
-    $('bF').disabled = $('bB').disabled = false; refresh();
-  } catch (x) { $('err').textContent = 'PDF tidak bisa dibaca. Coba simpan ulang PDF-nya lalu upload lagi.'; }
+$('fl').addEventListener('change',async e=>{
+ const f=e.target.files[0];if(!f)return;$('st').textContent='Membaca file...';
+ try{
+  if(/\.csv$/i.test(f.name)){applyRows(csv(await f.text()))}
+  else{const wb=XLSX.read(await f.arrayBuffer());applyRows(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]],{header:1,defval:''}))}
+ }catch(err){$('st').textContent='File tidak bisa dibaca. Coba simpan ulang sebagai CSV.'}
 });
-$('jilid').addEventListener('change', refresh);
-$('qty').addEventListener('input', refresh);
-$('bind').addEventListener('change', refresh);
-$('bF').onclick = () => build('f');
-$('bB').onclick = () => build('b');
-</script>
-</body>
-</html>
+async function load(){
+ const u=$('url').value.trim();if(!u){$('st').textContent='Link Google Sheet wajib diisi';return}
+ try{localStorage.setItem('sheetUrl',u)}catch(e){}
+ $('st').textContent='Memuat...';
+ try{const t=await (await fetch(u)).text();applyRows(csv(t))}
+ catch(e){$('st').textContent='Gagal memuat. Cek link dan pastikan sudah publish CSV.'}
+}
+function render(){
+ const n=k=>parseFloat($(k).value)||0;
+ const {pw,ph,lw,lh,gx,gy,cols,rows}=SHEET;
+ try{const s={};ids.forEach(k=>s[k]=$(k).value);localStorage.setItem('layout103',JSON.stringify(s))}catch(e){}
+ const mx=(pw-(cols*lw+(cols-1)*gx))/2,my=(ph-(rows*lh+(rows-1)*gy))/2;
+ const per=cols*rows,pages=Math.max(1,Math.ceil(DATA.length/per));
+ let h='';
+ for(let p=0;p<pages;p++){
+  h+=`<div class="sheet" style="width:${pw}mm;height:${ph}mm">`;
+  for(let i=0;i<per;i++){
+   const it=DATA[p*per+i];if(!it)continue;
+   const x=mx+(i%cols)*(lw+gx),y=my+((i/cols)|0)*(lh+gy);
+   h+=`<div class="lb ${$('ct').value=='y'?'cut':''}" style="left:${x}mm;top:${y}mm;width:${lw}mm;height:${lh}mm;gap:${n('ls')}mm;font:${n('fs')}pt ${$('ff').value};text-align:${$('al').value}"><div style="font-weight:700">${esc(it.n)}</div><div>${esc($('mid').value)}</div><div>${esc(it.a)}</div></div>`;
+  }
+  h+='</div>';
+ }
+ $('pv').innerHTML=h;
+ $('info').textContent=`${DATA.length} label, ${pages} lembar`;
+ fit();
+}
+function fit(){
+ const w=$('pv').clientWidth,s=Math.min(1,w/(SHEET.pw*3.7795));
+ document.querySelectorAll('.sheet').forEach(e=>{e.style.transform=`scale(${s})`;e.style.marginBottom=`${(s-1)*e.offsetHeight+12}px`});
+}
+ids.forEach(k=>$(k).addEventListener('input',render));
+addEventListener('resize',fit);
+addEventListener('beforeprint',()=>document.querySelectorAll('.sheet').forEach(e=>{e.style.transform='none';e.style.marginBottom='0'}));
+addEventListener('afterprint',fit);
+sync();render();if($('url').value)load();
+</script></body></html>
